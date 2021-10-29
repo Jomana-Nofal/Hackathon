@@ -15,12 +15,11 @@ class CreateQueuesTable extends Migration
     {
         Schema::create('queues', function (Blueprint $table) {
             $table->id();
-            $table->string('ticket_number');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('service_id');
-            $table->foreign('service_id')->references('id')->on('services');
-            $table->time('called_at');
+            $table->string('ticket_number')->default('0');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('service_id')->constrained('services')->cascadeOnDelete();
+            $table->timestamp('called_at')->nullable();
+            $table->timestamp('served_at')->nullable();
             $table->timestamps();
         });
     }
